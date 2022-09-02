@@ -11,7 +11,6 @@
 
 //İpucu 1: Array.prototype.groupByCustom =  dedikten sonra metodunuzu yazabilirsiniz
 
-//örnek array
 
 const array = [
     {
@@ -240,20 +239,16 @@ const array = [
     },
 ]
 
-//örnek çıktı array.groupByCustom(item=>item.gender) için
-/*
-    {
-        "m": [... gender m olan içerik]
-        "f": [... gender f olan içerik]
-    }
- */
 
-    //örnek çıktı array.groupByCustom(item=>item.name[0]) için
-/*
-    {
-        "A": [... name baş harfi A olan içerik]
-        "B": [... name baş harfi B olan içerik]
-        "C": [... name baş harfi C olan içerik]
-        ... devamı
-    }
- */
+Array.prototype.groupBy = function(key) {
+    return this.reduce((hash, obj) => {
+    if(obj[key] === undefined) return hash;
+    return Object.assign(hash, { [obj[key]]:( hash[obj[key]] || [] ).concat(obj)})
+    }, {})
+    };
+    console.log(array.groupBy("name"));
+    console.log(array.groupBy("gender"));
+
+//Reduce ile array içerisinde uygun key'e sahip değerleri listeliyoruz.Değer bulamayacağı durumlar için bir koşul ifadesi yazıyoruz.
+//Bulacağı değerlerden sonra ise Object.assign metodu ile bir çeşit kopyalama yapıyoruz.Concat ile elde ettiğimiz yeni arrayimizi ve objemizi birleştirmiş oluyoruz.
+ 
